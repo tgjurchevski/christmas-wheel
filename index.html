@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Christmas Lucky Wheel</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #wheel {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            border: 10px solid #ccc;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .segment {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            transform-origin: 50% 100%;
+        }
+
+        .segment:nth-child(odd) {
+            left: 0;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+
+        .segment:nth-child(even) {
+            right: 0;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+
+        .segment:nth-child(1) {
+            background-color: red;
+            transform: rotate(0deg);
+        }
+
+        .segment:nth-child(2) {
+            background-color: brown;
+            transform: rotate(72deg);
+        }
+
+        .segment:nth-child(3) {
+            background-color: yellow;
+            transform: rotate(144deg);
+        }
+
+        .segment:nth-child(4) {
+            background-color: green;
+            transform: rotate(216deg);
+        }
+
+        .segment:nth-child(5) {
+            background-color: white;
+            transform: rotate(288deg);
+        }
+
+        #spin-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="wheel">
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+    </div>
+    <button id="spin-button">Spin</button>
+
+    <script>
+        const wheel = document.getElementById('wheel');
+        const segments = wheel.querySelectorAll('.segment');
+        const spinButton = document.getElementById('spin-button');
+
+        let isSpinning = false;
+
+        spinButton.addEventListener('click', () => {
+            if (!isSpinning) {
+                isSpinning = true;
+                spinButton.disabled = true;
+
+                // Randomize segment order
+                segments.forEach(segment => {
+                    const randomAngle = Math.random() * 360;
+                    segment.style.transform = `rotate(${randomAngle}deg)`;
+                });
+
+                // Simulate spinning animation (you can customize this)
+                setTimeout(() => {
+                    const randomIndex = Math.floor(Math.random() * segments.length);
+                    const selectedSegment = segments[randomIndex];
+                    selectedSegment.style.transform = 'rotate(0deg)';
+
+                    // Display the selected color or perform other actions
+                    alert(`You won: ${selectedSegment.style.backgroundColor}`);
+
+                    isSpinning = false;
+                    spinButton.disabled = false;
+                }, 2000); // Adjust the timeout as needed
+            }
+        });
+    </script>
+</body>
+</html>
